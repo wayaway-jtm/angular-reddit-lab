@@ -16,6 +16,8 @@ export class RedditPostComponent implements OnInit {
   imgResolutions: Image[] = [];
   isVideo: boolean;
   srcVideo: Image;
+  mainImg: HTMLImageElement = document.createElement('img');
+  srcUrl: string = '';
   @Input() srcPost: any;
 
   constructor() { }
@@ -27,11 +29,34 @@ export class RedditPostComponent implements OnInit {
     this.thumbnail = this.srcPost.thumbnail;
     this.over18 = this.srcPost.over_18;
     this.isVideo = this.srcPost.is_video;
+    this.srcUrl = this.srcPost.permalink;
     if (this.isVideo) {
       let srcHeight = this.srcPost.media.reddit_video.height > 500 ? 500 : this.srcPost.media.reddit_video.height;
       let srcWidth = this.srcPost.media.reddit_video.width > 500 ? 500 : this.srcPost.media.reddit_video.width;
       this.srcVideo = new Image(this.srcPost.media.reddit_video.fallback_url, srcHeight, srcWidth);
     }
-    this.srcImage = new Image(this.srcPost.url, 500, 500);
+    if (this.srcPost.post_hint === 'image') {
+      this.mainImg.src = this.srcPost.url;
+      let srcHeight = this.mainImg.naturalHeight;
+      let srcWidth = this.mainImg.naturalWidth;
+      let newHeight = srcHeight;
+      let newWidth = srcWidth;
+      if (srcHeight > 500 || srcWidth > 500) {
+        for (const tempImg of this.srcPost.preview.images[0].resolutions) {
+          if (tempImg.width <= 500 && tempImg.height <= 500) {
+            // Idk why they're backwards but they are
+            newHeight = tempImg.width;
+            newWidth = tempImg.height;
+          } else {
+            break;
+          }
+        }
+      }
+      this.srcImage = new Image(this.srcPost.url, newHeight, newWidth);
+    }
+  }
+
+  viewFullSizeImg(srcLink: string) {
+    window.open(srcLink, "_blank");
   }
 }

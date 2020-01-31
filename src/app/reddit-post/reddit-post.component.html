@@ -1,4 +1,22 @@
-<h1>{{title}}</h1>
-<video controls src="{{srcVideo.url}}" height="{{srcVideo.height}}" width="{{srcVideo.width}}" *ngIf="isVideo"></video>
-<img src="{{srcImage.url}}" alt="" width="{{srcImage.width}}" height="{{srcImage.height}}" *ngIf="!isVideo" />
-
+<div>
+  <h1>{{title}}</h1>
+  <a href="https://www.reddit.com/{{srcUrl}}" target="_blank">View on Reddit</a>
+  <section>
+    <span id="votes">
+      <p id="upvote">
+        <img src="../../assets/updoot.png" alt="upvote arrow" class="vote-arrow">
+        {{ups}}
+      </p>
+      <p id="downvote">
+        <img src="../../assets/downdoot.png" alt="downvote arrow" class="vote-arrow">
+        {{downs}}
+      </p>
+    </span>
+    <span id="media-wrapper">
+      <video controls src="{{srcVideo.url}}" height="{{srcVideo.height}}" width="{{srcVideo.width}}"
+        *ngIf="isVideo"></video>
+      <img src="{{srcImage.url}}" width="{{srcImage.width}}" height="{{srcImage.height}}" *ngIf="!isVideo"
+        (click)="viewFullSizeImg(srcImage.url)" />
+    </span>
+  </section>
+</div>
