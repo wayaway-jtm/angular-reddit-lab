@@ -1,0 +1,4 @@
+<h1>{{title}}</h1>
+<video controls src="{{srcVideo.url}}" height="{{srcVideo.height}}" width="{{srcVideo.width}}" *ngIf="isVideo"></video>
+<img src="{{srcImage.url}}" alt="" width="{{srcImage.width}}" height="{{srcImage.height}}" *ngIf="!isVideo" />
+

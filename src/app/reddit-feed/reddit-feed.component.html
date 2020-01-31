@@ -1,1 +1,5 @@
-<p>reddit-feed works!</p>
+<ul>
+    <li *ngFor="let post of posts">
+        <app-reddit-post [srcPost]="post.data"></app-reddit-post>
+    </li>
+</ul>

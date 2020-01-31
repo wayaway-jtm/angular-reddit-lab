@@ -8,9 +8,14 @@ import { RedditFetchService } from '../reddit-fetch.service';
 })
 export class RedditFeedComponent implements OnInit {
 
-  constructor(private redditService: RedditFetchService) { }
+  posts : [];
+
+  constructor(private redditService: RedditFetchService) {
+  }
 
   ngOnInit() {
+    // this.redditService.fetchSubreddit().subscribe((data: any) => console.log(data));
+    this.redditService.fetchSubreddit().subscribe((data: any) => this.posts = data.data.children);
   }
 
 }
