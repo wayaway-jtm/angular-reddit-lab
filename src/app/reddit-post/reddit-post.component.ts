@@ -15,6 +15,7 @@ export class RedditPostComponent implements OnInit {
   srcImage: Image;
   imgResolutions: Image[] = [];
   isVideo: boolean;
+  isImage: boolean;
   srcVideo: Image;
   mainImg: HTMLImageElement = document.createElement('img');
   srcUrl: string = '';
@@ -36,23 +37,27 @@ export class RedditPostComponent implements OnInit {
       this.srcVideo = new Image(this.srcPost.media.reddit_video.fallback_url, srcHeight, srcWidth);
     }
     if (this.srcPost.post_hint === 'image') {
+      this.isImage = true;
       this.mainImg.src = this.srcPost.url;
       let srcHeight = this.mainImg.naturalHeight;
       let srcWidth = this.mainImg.naturalWidth;
       let newHeight = srcHeight;
       let newWidth = srcWidth;
-      if (srcHeight > 500 || srcWidth > 500) {
+      if ((srcHeight > 500 || srcWidth > 500) ||
+          (srcHeight == 0 || srcWidth == 0)) {
         for (const tempImg of this.srcPost.preview.images[0].resolutions) {
           if (tempImg.width <= 500 && tempImg.height <= 500) {
             // Idk why they're backwards but they are
             newHeight = tempImg.width;
             newWidth = tempImg.height;
           } else {
+            console.log('Height: ', newHeight);
+            console.log('Width: ', newWidth);
             break;
           }
         }
       }
-      this.srcImage = new Image(this.srcPost.url, newHeight, newWidth);
+      this.srcImage = new Image(this.srcPost.url, newHeight == 0 ? 250 : newHeight, newWidth == 0 ? 250 : newWidth);
     }
   }
 

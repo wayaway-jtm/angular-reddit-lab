@@ -9,6 +9,8 @@ export class RedditFetchService {
   constructor(private http: HttpClient) { }
 
   fetchSubreddit(subredditName: string = 'awww') {
-    return this.http.get(`https://www.reddit.com/r/${subredditName}/.json?limit=10`);
+    let site = 'https://www.reddit.com/r/' + subredditName + '/.json?limit=10';
+    console.log(site);
+    return this.http.get(site);
   }
 }
